@@ -21,7 +21,7 @@ resource "aws_instance" "app_server" {
   key_name               = "key-amazon"
 
   tags = {
-    Name = "TerraformInstance"
+    Name = var.instance_name
     APP  = "hello-2048"
   }
 }
