@@ -14,7 +14,9 @@
         ansible_user: ec2-user
 
   - name: Install Docker
-    command: amazon-linux-extras install -y docker
+    yum:
+      name: docker
+      state: latest
 
   - name: Start Docker Service
     service:
