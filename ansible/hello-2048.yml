@@ -22,13 +22,11 @@
     yum:
       name: docker
       state: latest
-
   - name: Start Docker Service
     service:
       name: docker
       state: started
       enabled: true
-
   - name: Add user
     command: usermod -a -G docker ec2-user
 
@@ -43,11 +41,11 @@
       group: ec2-user
       mode: 0775
   - name: Clone the GitHub repository
-      command: wget https://raw.githubusercontent.com/vozsiberiana/hello-2048/main/docker-compose.yml
+    command: wget https://raw.githubusercontent.com/vozsiberiana/hello-2048/main/docker-compose.yml
 
   - name: Docker-compose pull
-      command: docker-compose pull
+    command: docker-compose pull
 
   - name: Docker-compose up
-      command: docker-compose up -d
+    command: docker-compose up -d
 
