@@ -41,7 +41,7 @@ pipeline {
             steps {
                 sshagent(['ssh-amazon']) {
                     withAWS(credentials: 'aws-credentials', region: 'eu-west-1')  {
-                      AnsiblePlaybook(
+                      ansiblePlaybook(
 			credentialsId: 'aws-credentials',
 			inventory: '/home/sinensia/hello-terraform/ansible/aws_ec2.yml',
 			playbook: '/home/sinensia/hello-terraform/ansible/hello-2048.yml'
