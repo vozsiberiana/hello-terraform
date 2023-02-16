@@ -1,8 +1,41 @@
 pipeline {
     agent any
 
+    options {
+        timestamps()
+        ansiColor('xterm')
+    }
+
+
     stages {
-        stage("Terraform"){
+
+        stage('Build') {
+            steps {
+                sh 'docker-compose build'
+		sh 'git tag 1.0.${BUILD_NUMBER}'
+		sh 'docker tag ghcr.io/vozsiberiana/hello-2048/hello-2048:v1 ghcr.io/vozsiberiana/hello-2048/hello-2048:1.0.${BUILD_NUMBER}'
+            }
+	}
+
+        stage('Package') {	
+            steps {
+		withCredentials([string(credentialsId: 'github-vozsiberiana', variable: 'GIT_TOKEN')]) {
+		    sh 'echo $GIT_TOKEN | docker login ghcr.io -u vozsiberiana --password-stdin'
+                    sh 'docker push ghcr.io/vozsiberiana/hello-2048/hello-2048:1.0.${BUILD_NUMBER}'
+		 }
+            }
+        }
+
+	stage('Git Push') {
+		steps {
+    			sshagent(['user-git']) {
+				sh 'git push git@github.com:vozsiberiana/hello-2048.git --tags'
+			}
+		}
+	}
+        
+
+	stage("Terraform") {
             steps {
                 withAWS(credentials: 'aws-credentials', region: 'eu-west-1') {
                     sh 'terraform init'
@@ -11,12 +44,17 @@ pipeline {
                 }
             }
         }
-        stage("Deployment"){
+        
+	stage("Deployment") {
             steps {
-                sh 'cd ansible/'
-                sshagent(['ssh-amazon']){
+                sshagent(['ssh-amazon']) {
                     withAWS(credentials: 'aws-credentials', region: 'eu-west-1')  {
-                       sh 'ansible-playbook -i aws_ec2.yml ec2.yml'
+                      AnsiblePlaybook(
+			credentialsId: 'aws-credentials',
+			inventory: '/home/sinensia/hello-terraform/ansible/aws_ec2.yml',
+			playbook: '/home/sinensia/hello-terraform/ansible/hello-2048.yml'
+		      )
+
                     }
                 }
             }
