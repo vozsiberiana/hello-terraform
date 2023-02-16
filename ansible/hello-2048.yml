@@ -1,3 +1,4 @@
+
 ---
 - hosts: all
   become: true
@@ -53,4 +54,4 @@
       project_src: /home/ec2-user/hello-2048
       pull: true
     vars:
-      ansible_python_interpreter: /usr/bin/python33333
+      ansible_python_interpreter: /usr/bin/python3
