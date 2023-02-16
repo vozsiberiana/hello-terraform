@@ -12,7 +12,7 @@
 
 - hosts: all
   become: true
-  var:
+  vars:
     ansible_user: ec2-user
   tasks:
   - name: Install Apache httpd
@@ -27,7 +27,7 @@
       state: started
 
   - name: Install App
-    copy: ../hello-2048/public_html/
+    copy: home/sinensia/hello-2048/public_html/
       dest: /var/www/html/
       owner: apache
       group: apache
