@@ -50,6 +50,6 @@
       group: ec2-user
   - name: Docker-compose pull
     community.docker.docker_compose:
-    project_src: /home/ec2-user/hello-2048
-    pull: true
+      project_src: /home/ec2-user/hello-2048
+      pull: true
 
