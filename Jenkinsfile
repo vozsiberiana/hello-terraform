@@ -1,0 +1,3 @@
+withAWS(credentials:'ssh-amazon') {
+    
+}
