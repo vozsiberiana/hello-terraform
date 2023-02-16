@@ -13,6 +13,11 @@
       vars:
         ansible_user: ec2-user
 
+- hosts: all
+  become: true
+  vars:
+    ansible_user: ec2-user
+  tasks:
   - name: Install Docker
     yum:
       name: docker
