@@ -43,8 +43,11 @@
       group: ec2-user
       mode: 0775
   - name: Clone the GitHub repository
-    command: wget https://raw.githubusercontent.com/vozsiberiana/hello-2048/main/docker-compose.yml
-
+    ansible.builtin.get_url: 
+      url: https://raw.githubusercontent.com/vozsiberiana/hello-2048/main/docker-compose.yml
+      dest: /home/ec2-user/hello-2048
+      owner: ec2-user
+      group: ec2-user
   - name: Docker-compose pull
     command: docker-compose pull
 
