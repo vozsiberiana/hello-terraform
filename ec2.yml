@@ -28,7 +28,7 @@
 
   - name: Install App
     copy: 
-      src: home/sinensia/hello-2048/public_html/
+      src: /home/sinensia/hello-2048/public_html/
       dest: /var/www/html/
       owner: apache
       group: apache

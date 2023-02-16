@@ -27,7 +27,8 @@
       state: started
 
   - name: Install App
-    copy: ../hello-2048/public_html/
+    copy: 
+      src: /home/sinensia/hello-2048/public_html/
       dest: /var/www/html/
       owner: apache
       group: apache
