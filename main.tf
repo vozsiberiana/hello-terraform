@@ -3,6 +3,7 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 4.16"
+
     }
   }
 
@@ -19,6 +20,7 @@ resource "aws_instance" "app_server" {
   vpc_security_group_ids = ["sg-0e00978364e148d44"]
   subnet_id              = "subnet-0a777c7272fde2cf6"
   key_name               = "key-amazon"
+  count                  = 2
 
   tags = {
     Name = var.instance_name
